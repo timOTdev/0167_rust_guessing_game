@@ -1,6 +1,7 @@
 use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
+use colored::*;
 
 fn main() {
     // Generate a random number.
@@ -40,12 +41,12 @@ fn main() {
         // Compare the secret number and guess.
         // Breaks the loop if you guess correctly.
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too low."),
+            Ordering::Less => println!("{}", "Too low.".red()),
             Ordering::Equal => {
-                println!("You win.");
+                println!("{}", "You win.".green());
                 break;
             },
-            Ordering::Greater => println!("Too high."),
+            Ordering::Greater => println!("{}", "Too high.".red()),
         };
     }
 }
