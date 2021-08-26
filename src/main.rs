@@ -8,32 +8,44 @@ fn main() {
     
     println!("Guess the number!");
     println!("Secret number: {}", secret_number);
-    println!("Please input your guess.");
 
-    // Capture the input.
-    // String is of the owned type and always UTF-8.
-    // new is an associated function.
-    let mut guess = String::new();
+    loop {
+        println!("Please input your guess.");
 
-    // Read the input and saves as string to variable guess.
-    // Bring in libary to read the line and handle Ok or Error.
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+        // Capture the input.
+        // String is of the owned type and always UTF-8.
+        // new is an associated function.
+        let mut guess = String::new();
 
-    // Need to convert guess number into a number.
-    let guess: u32 = guess
-        .trim()
-        .parse()
-        .expect("Please type a number.");
+        // Read the input and saves as string to variable guess.
+        // Bring in libary to read the line and handle Ok or Error.
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
 
-    // Print the input.
-    println!("You guessed: {}", guess);
+        // Need to convert guess number into a number.
+        // Tell users to re-enter guess until type of number.
+        // Shadowing also occurs here for guess variable,
+        // allows the change of variable type.
+        let guess: u32 = match guess
+            .trim()
+            .parse(){
+                Ok(num) => num,
+                Err(_) => continue,
+            };
 
-    // Compare the secret number and guess.
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too low."),
-        Ordering::Equal => println!("You win."),
-        Ordering::Greater => println!("Too high."),
-    };
+        // Print the input.
+        println!("You guessed: {}", guess);
+
+        // Compare the secret number and guess.
+        // Breaks the loop if you guess correctly.
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too low."),
+            Ordering::Equal => {
+                println!("You win.");
+                break;
+            },
+            Ordering::Greater => println!("Too high."),
+        };
+    }
 }
